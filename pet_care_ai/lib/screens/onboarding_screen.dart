@@ -32,46 +32,54 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final Map<String, List<Map<String, dynamic>>> petsByCategory = {
     'Dog': [
       {
-        'name': 'Australian Shepherd',
-        'breed': 'Energetic & Smart',
-        'gradient': [Color(0xFF87CEEB), Color(0xFFFFB6C1)],
-        'color': Color(0xFFE4A574),
-        'imageAsset': 'assets/pets/dog1.png',
-        'description': 'Perfect companion for active families',
-      },
-      {
-        'name': 'Golden Retriever',
-        'breed': 'Friendly & Loyal',
+        'name': 'Friendly Dog',
+        'breed': 'Playful & Loyal',
         'gradient': [Color(0xFFFFE4B5), Color(0xFFFFB6C1)],
         'color': Color(0xFFD4AF37),
-        'imageAsset': 'assets/pets/dog2.png',
-        'description': 'Great with kids and families',
+        'imageAsset': 'assets/image/pets.jpg',
+        'description': 'Loves to greet everyone!',
       },
       {
-        'name': 'Husky',
-        'breed': 'Strong & Independent',
+        'name': 'Golden Pup',
+        'breed': 'Fluffy & Energetic',
+        'gradient': [Color(0xFFFFE4B5), Color(0xFFFFB6C1)],
+        'color': Color(0xFFD4AF37),
+        'imageAsset': 'assets/image/pets1.png',
+        'description': 'Always ready for a walk.',
+      },
+      {
+        'name': 'White Pomeranian',
+        'breed': 'Cute & Smart',
         'gradient': [Color(0xFF87CEEB), Color(0xFFE6E6FA)],
         'color': Color(0xFF708090),
-        'imageAsset': 'assets/pets/dog3.png',
-        'description': 'Loves cold weather and exercise',
+        'imageAsset': 'assets/image/pets2.jpg',
+        'description': 'Loves to play and cuddle.',
       },
     ],
     'Cat': [
       {
-        'name': 'Persian Cat',
-        'breed': 'Calm & Gentle',
+        'name': 'Cat Duo',
+        'breed': 'Best Friends',
         'gradient': [Color(0xFFDDA0DD), Color(0xFF98FB98)],
         'color': Color(0xFF8B7355),
-        'imageAsset': 'assets/pets/cat1.png',
-        'description': 'Elegant and loving companion',
+        'imageAsset': 'assets/image/pets3.jpg',
+        'description': 'Double the fun and love.',
       },
       {
-        'name': 'Maine Coon',
-        'breed': 'Large & Fluffy',
-        'gradient': [Color(0xFF8B4513), Color(0xFFDEB887)],
-        'color': Color(0xFF8B4513),
-        'imageAsset': 'assets/pets/cat2.png',
-        'description': 'Gentle giant with beautiful coat',
+        'name': 'Paw Cat',
+        'breed': 'Curious & Sweet',
+        'gradient': [Color(0xFFDDA0DD), Color(0xFF98FB98)],
+        'color': Color(0xFF8B7355),
+        'imageAsset': 'assets/image/pets4.jpg',
+        'description': 'Loves to explore and nap.',
+      },
+      {
+        'name': 'Happy Cat',
+        'breed': 'Chill & Cheerful',
+        'gradient': [Color(0xFFDDA0DD), Color(0xFF98FB98)],
+        'color': Color(0xFF8B7355),
+        'imageAsset': 'assets/image/pets5.jpg',
+        'description': 'Always in a good mood.',
       },
     ],
     'Bird': [
@@ -80,7 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         'breed': 'Cheerful Singer',
         'gradient': [Color(0xFFFFE4B5), Color(0xFF87CEFA)],
         'color': Color(0xFFFFD700),
-        'imageAsset': 'assets/pets/bird1.png',
+        'imageAsset': 'assets/image/pets6.jpg',
         'description': 'Beautiful songs every morning',
       },
       {
@@ -88,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         'breed': 'Smart & Talkative',
         'gradient': [Color(0xFF32CD32), Color(0xFF87CEEB)],
         'color': Color(0xFF32CD32),
-        'imageAsset': 'assets/pets/bird2.png',
+        'imageAsset': 'assets/image/pets7.jpg',
         'description': 'Interactive and intelligent pet',
       },
     ],
@@ -98,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         'breed': 'Peaceful Swimmer',
         'gradient': [Color(0xFF20B2AA), Color(0xFFFFE4E1)],
         'color': Color(0xFF4ECDC4),
-        'imageAsset': 'assets/pets/fish1.png',
+        'imageAsset': 'assets/image/pets8.jpg',
         'description': 'Calming and low maintenance',
       },
       {
@@ -106,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         'breed': 'Colorful & Vibrant',
         'gradient': [Color(0xFF4169E1), Color(0xFFFF1493)],
         'color': Color(0xFF4169E1),
-        'imageAsset': 'assets/pets/fish2.png',
+        'imageAsset': 'assets/image/pets9.jpg',
         'description': 'Beautiful colors and flowing fins',
       },
     ],
@@ -442,219 +450,90 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           // Pet Image Section
           Positioned(
             top: 30,
-            left: 20,
-            right: 20,
-            child: Container(
-              height: 220,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95),
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Stack(
-                  children: [
-                    // Pet Image from assets
-                    Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.08),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                pet['imageAsset'],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            pet['name'],
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF2C2C2C),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            pet['breed'],
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: const Color(0xFF2C2C2C).withOpacity(0.7),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Overlay with interaction hint
-                    Positioned(
-                      top: 10,
-                      right: 10,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
-                          Icons.favorite_border,
-                          size: 16,
-                          color: Color(0xFF2C2C2C),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // Pet Description
-          Positioned(
-            bottom: 120,
-            left: 20,
-            right: 20,
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                pet['description'],
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF2C2C2C),
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-
-          // Play Button
-          Positioned(
-            bottom: 80,
             left: 0,
             right: 0,
             child: Center(
               child: Container(
-                padding: const EdgeInsets.all(16),
+                width: 220,
+                height: 260,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.9),
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(32),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
+                      color: Colors.black.withOpacity(0.10),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
                     ),
                   ],
                 ),
-                child: const Icon(
-                  Icons.play_arrow,
-                  size: 24,
-                  color: Color(0xFF2C2C2C),
-                ),
-              ),
-            ),
-          ),
-
-          // See More Button
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: GestureDetector(
-              onTap: () {
-                // Navigate to detailed pet view or show more pets
-                if (index < currentPets.length - 1) {
-                  _pageController.nextPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(pet['icon'], color: Colors.white, size: 16),
-                    const SizedBox(width: 8),
-                    Text(
-                      index < currentPets.length - 1 ? 'Next' : 'See more',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // Page indicator dots
-          if (currentPets.length > 1)
-            Positioned(
-              bottom: 50,
-              left: 20,
-              child: Row(
-                children: List.generate(
-                  currentPets.length,
-                  (dotIndex) => Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    width: dotIndex == index ? 20 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color:
-                          dotIndex == index
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(32),
+                  child: Image.asset(
+                    pet['imageAsset'],
+                    fit: BoxFit.cover,
+                    errorBuilder:
+                        (context, error, stackTrace) => Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                            child: Icon(
+                              Icons.pets,
+                              size: 60,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
                   ),
                 ),
               ),
             ),
+          ),
+          // Pet Name & Breed below image
+          Positioned(
+            top: 300,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                Text(
+                  pet['name'],
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF2C2C2C),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  pet['breed'],
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: const Color(0xFF2C2C2C).withOpacity(0.7),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+
+          // Overlay with interaction hint
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(
+                Icons.favorite_border,
+                size: 16,
+                color: Color(0xFF2C2C2C),
+              ),
+            ),
+          ),
         ],
       ),
     );
