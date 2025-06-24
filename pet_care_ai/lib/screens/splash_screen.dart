@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'onboarding_screen.dart';
+import 'dart:math' as math;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _navigateToOnboarding() {
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 10), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           pageBuilder:
@@ -75,29 +76,40 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5E6D3),
+      backgroundColor: const Color(0xFF191A2F), // Premium dark background
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo Animation
             AnimatedBuilder(
-              animation: _scaleAnimation,
+              animation: Listenable.merge([_scaleAnimation, _fadeAnimation]),
               builder: (context, child) {
+                final double glow = 0.5 + 0.5 * (1 +
+                    (math.sin(DateTime.now().millisecondsSinceEpoch / 400)));
                 return Transform.scale(
                   scale: _scaleAnimation.value,
                   child: Container(
-                    width: 200,
-                    height: 200,
-                    padding: const EdgeInsets.all(20),
+                    width: 220 + 10 * glow,
+                    height: 220 + 10 * glow,
+                    padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(40),
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF00E676), Color(0xFF00B8D4)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(48),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFE4A574).withOpacity(0.3),
-                          blurRadius: 30,
-                          offset: const Offset(0, 15),
+                          color: const Color(0xFF00B8D4).withOpacity(0.18 + 0.12 * glow),
+                          blurRadius: 40 + 10 * glow,
+                          offset: const Offset(0, 18),
+                        ),
+                        BoxShadow(
+                          color: const Color(0xFFFFC107).withOpacity(0.10 * glow),
+                          blurRadius: 20 + 10 * glow,
+                          offset: const Offset(0, 0),
                         ),
                       ],
                     ),
@@ -105,41 +117,57 @@ class _SplashScreenState extends State<SplashScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // Pet Care Illustration
-                        Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFE4A574), Color(0xFFD49660)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
+                        TweenAnimationBuilder<double>(
+                          tween: Tween<double>(begin: 0.8, end: 1.0),
+                          duration: const Duration(milliseconds: 1200),
+                          curve: Curves.elasticOut,
+                          builder: (context, scale, child) => Transform.scale(
+                            scale: scale + 0.05 * math.sin(DateTime.now().millisecondsSinceEpoch / 300),
+                            child: child,
                           ),
-                          child: const Icon(
-                            Icons.pets,
-                            size: 40,
-                            color: Colors.white,
+                          child: Container(
+                            width: 90,
+                            height: 90,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFFFFC107), Color(0xFF00E676)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(24),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xFFFFC107).withOpacity(0.18),
+                                  blurRadius: 18,
+                                  offset: Offset(0, 6),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.pets,
+                              size: 48,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 18),
                         // Animated pets around the main icon
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             _buildMiniPetIcon(
                               Icons.pets,
-                              const Color(0xFF8B7355),
+                              const Color(0xFF00B8D4),
                               0,
                             ),
                             _buildMiniPetIcon(
                               Icons.favorite,
-                              const Color(0xFFE4A574),
+                              const Color(0xFFFFC107),
                               200,
                             ),
                             _buildMiniPetIcon(
                               Icons.health_and_safety,
-                              const Color(0xFFD49660),
+                              const Color(0xFF00E676),
                               400,
                             ),
                           ],
@@ -158,42 +186,85 @@ class _SplashScreenState extends State<SplashScreen>
               opacity: _fadeAnimation,
               child: Column(
                 children: [
-                  RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -1,
+                  TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0.8, end: 1.0),
+                    duration: const Duration(milliseconds: 1200),
+                    curve: Curves.elasticOut,
+                    builder: (context, scale, child) => Transform.scale(
+                      scale: scale,
+                      child: child,
+                    ),
+                    child: RichText(
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: -1.2,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 16,
+                              color: Color(0xFF00B8D4),
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Pet',
+                            style: TextStyle(color: Color(0xFFFFC107)),
+                          ),
+                          TextSpan(
+                            text: 'Care',
+                            style: TextStyle(color: Color(0xFF00E676)),
+                          ),
+                        ],
                       ),
-                      children: [
-                        TextSpan(
-                          text: 'Pet',
-                          style: TextStyle(color: Color(0xFFE4A574)),
-                        ),
-                        TextSpan(
-                          text: 'Care',
-                          style: TextStyle(color: Color(0xFF8B7355)),
-                        ),
-                      ],
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 6,
+                  const SizedBox(height: 10),
+                  TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0.8, end: 1.0),
+                    duration: const Duration(milliseconds: 1200),
+                    curve: Curves.elasticOut,
+                    builder: (context, scale, child) => Transform.scale(
+                      scale: scale,
+                      child: child,
                     ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE4A574).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      'AI Powered',
-                      style: TextStyle(
-                        color: Color(0xFF8B7355),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF00B8D4), Color(0xFF00E676)],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFF00B8D4).withOpacity(0.12),
+                            blurRadius: 12,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Text(
+                        'AI Powered',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.7,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 8,
+                              color: Color(0xFF00E676),
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -208,23 +279,42 @@ class _SplashScreenState extends State<SplashScreen>
               opacity: _fadeAnimation,
               child: Column(
                 children: [
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 3,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        const Color(0xFFE4A574).withOpacity(0.7),
+                  TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0.7, end: 1.0),
+                    duration: const Duration(milliseconds: 1200),
+                    curve: Curves.elasticOut,
+                    builder: (context, scale, child) => Transform.scale(
+                      scale: scale + 0.05 * math.sin(DateTime.now().millisecondsSinceEpoch / 400),
+                      child: child,
+                    ),
+                    child: SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 4,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          const Color(0xFFFFC107),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Preparing your pet care companion...',
-                    style: TextStyle(
-                      color: const Color(0xFF8B7355).withOpacity(0.8),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                  const SizedBox(height: 18),
+                  TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0.8, end: 1.0),
+                    duration: const Duration(milliseconds: 1200),
+                    curve: Curves.elasticOut,
+                    builder: (context, scale, child) => Transform.scale(
+                      scale: scale,
+                      child: child,
+                    ),
+                    child: Text(
+                      'Preparing your pet care companion...',
+                      style: TextStyle(
+                        color: const Color(0xFF00B8D4).withOpacity(0.85),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                      ),
                     ),
                   ),
                 ],
