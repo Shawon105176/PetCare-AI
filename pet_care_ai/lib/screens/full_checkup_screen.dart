@@ -7,10 +7,12 @@ class FullCheckupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: Text(
-          'Full Checkup',
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            'Full Checkup',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
