@@ -17,6 +17,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   late Animation<Offset> _slideAnimation;
   late Animation<double> _fadeAnimation;
   late Animation<double> _petChangeAnimation;
+  bool _animationsInitialized = false;
 
   void _setupPetChangeAnimation() {
     _petChangeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -155,6 +156,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
 
     _startAnimations();
+    _animationsInitialized = true;
   }
 
   void _startAnimations() async {
@@ -193,6 +195,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (!_animationsInitialized) {
+      return const SizedBox.shrink();
+    }
     return Scaffold(
       backgroundColor: const Color(0xFFF5E6D3),
       body: SafeArea(
