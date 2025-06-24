@@ -33,90 +33,40 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final Map<String, List<Map<String, dynamic>>> petsByCategory = {
     'Dog': [
       {
-        'name': 'Friendly Dog',
-        'breed': 'Playful & Loyal',
-        'gradient': [Color(0xFFFFE4B5), Color(0xFFFFB6C1)],
-        'color': Color(0xFFD4AF37),
         'imageAsset': 'assets/image/pets.jpg',
-        'description': 'Loves to greet everyone!',
       },
       {
-        'name': 'Golden Pup',
-        'breed': 'Fluffy & Energetic',
-        'gradient': [Color(0xFFFFE4B5), Color(0xFFFFB6C1)],
-        'color': Color(0xFFD4AF37),
         'imageAsset': 'assets/image/pets1.png',
-        'description': 'Always ready for a walk.',
       },
       {
-        'name': 'White Pomeranian',
-        'breed': 'Cute & Smart',
-        'gradient': [Color(0xFF87CEEB), Color(0xFFE6E6FA)],
-        'color': Color(0xFF708090),
         'imageAsset': 'assets/image/pets2.jpg',
-        'description': 'Loves to play and cuddle.',
       },
     ],
     'Cat': [
       {
-        'name': 'Cat Duo',
-        'breed': 'Best Friends',
-        'gradient': [Color(0xFFDDA0DD), Color(0xFF98FB98)],
-        'color': Color(0xFF8B7355),
         'imageAsset': 'assets/image/pets3.jpg',
-        'description': 'Double the fun and love.',
       },
       {
-        'name': 'Paw Cat',
-        'breed': 'Curious & Sweet',
-        'gradient': [Color(0xFFDDA0DD), Color(0xFF98FB98)],
-        'color': Color(0xFF8B7355),
         'imageAsset': 'assets/image/pets4.jpg',
-        'description': 'Loves to explore and nap.',
       },
       {
-        'name': 'Happy Cat',
-        'breed': 'Chill & Cheerful',
-        'gradient': [Color(0xFFDDA0DD), Color(0xFF98FB98)],
-        'color': Color(0xFF8B7355),
         'imageAsset': 'assets/image/pets5.jpg',
-        'description': 'Always in a good mood.',
       },
     ],
     'Bird': [
       {
-        'name': 'Canary',
-        'breed': 'Cheerful Singer',
-        'gradient': [Color(0xFFFFE4B5), Color(0xFF87CEFA)],
-        'color': Color(0xFFFFD700),
         'imageAsset': 'assets/image/pets6.jpg',
-        'description': 'Beautiful songs every morning',
       },
       {
-        'name': 'Parrot',
-        'breed': 'Smart & Talkative',
-        'gradient': [Color(0xFF32CD32), Color(0xFF87CEEB)],
-        'color': Color(0xFF32CD32),
         'imageAsset': 'assets/image/pets7.jpg',
-        'description': 'Interactive and intelligent pet',
       },
     ],
     'Fish': [
       {
-        'name': 'Goldfish',
-        'breed': 'Peaceful Swimmer',
-        'gradient': [Color(0xFF20B2AA), Color(0xFFFFE4E1)],
-        'color': Color(0xFF4ECDC4),
         'imageAsset': 'assets/image/pets8.jpg',
-        'description': 'Calming and low maintenance',
       },
       {
-        'name': 'Betta Fish',
-        'breed': 'Colorful & Vibrant',
-        'gradient': [Color(0xFF4169E1), Color(0xFFFF1493)],
-        'color': Color(0xFF4169E1),
         'imageAsset': 'assets/image/pets9.jpg',
-        'description': 'Beautiful colors and flowing fins',
       },
     ],
   };
@@ -438,7 +388,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(32),
         gradient: LinearGradient(
-          colors: pet['gradient'] as List<Color>,
+          colors: (pet['gradient'] as List<Color>?) ?? [Color(0xFFE0C3FC), Color(0xFF8EC5FC)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -450,96 +400,24 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           ),
         ],
       ),
-      child: Stack(
-        children: [
-          // Pet Image Section
-          Positioned(
-            top: 30,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Container(
-                width: 220,
-                height: 260,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.10),
-                      blurRadius: 24,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(32),
-                  child: Image.asset(
-                    pet['imageAsset'],
-                    fit: BoxFit.cover,
-                    errorBuilder:
-                        (context, error, stackTrace) => Container(
-                          color: Colors.grey[200],
-                          child: const Center(
-                            child: Icon(
-                              Icons.pets,
-                              size: 60,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                  ),
-                ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(32),
+        child: Image.asset(
+          pet['imageAsset'],
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+          errorBuilder: (context, error, stackTrace) => Container(
+            color: Colors.grey[200],
+            child: const Center(
+              child: Icon(
+                Icons.pets,
+                size: 60,
+                color: Colors.grey,
               ),
             ),
           ),
-          // Pet Name & Breed below image
-          Positioned(
-            top: 300,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                Text(
-                  pet['name'],
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF2C2C2C),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  pet['breed'],
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: const Color(0xFF2C2C2C).withOpacity(0.7),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-
-          // Overlay with interaction hint
-          Positioned(
-            top: 10,
-            right: 10,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(
-                Icons.favorite_border,
-                size: 16,
-                color: Color(0xFF2C2C2C),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
