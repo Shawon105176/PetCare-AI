@@ -153,7 +153,7 @@ class _PremiumNavBarState extends State<_PremiumNavBar> with SingleTickerProvide
         ),
       ),
       _LiquidNavBarItemData(
-        icon: Icons.search_rounded,
+        icon: Icons.menu_book_rounded, // Changed to book/learn icon similar to the provided image
         selected: widget.selectedIndex == 1,
         onTap: () => widget.onTap(1),
         gradient: const LinearGradient(
@@ -163,7 +163,7 @@ class _PremiumNavBarState extends State<_PremiumNavBar> with SingleTickerProvide
         ),
       ),
       _LiquidNavBarItemData(
-        icon: Icons.add_rounded,
+        icon: Icons.medical_services_rounded, // Changed from add to full checkup icon
         selected: widget.selectedIndex == 2,
         onTap: () => widget.onTap(2),
         gradient: const LinearGradient(
@@ -173,7 +173,7 @@ class _PremiumNavBarState extends State<_PremiumNavBar> with SingleTickerProvide
         ),
       ),
       _LiquidNavBarItemData(
-        icon: Icons.notifications_rounded,
+        icon: Icons.person_rounded, // Changed from notification to profile icon
         selected: widget.selectedIndex == 3,
         onTap: () => widget.onTap(3),
         gradient: const LinearGradient(
@@ -190,7 +190,7 @@ class _PremiumNavBarState extends State<_PremiumNavBar> with SingleTickerProvide
           height: 80,
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: const Color.fromARGB(255, 0, 130, 134),
             borderRadius: BorderRadius.circular(40),
             boxShadow: [
               BoxShadow(

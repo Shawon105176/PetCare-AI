@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _navigateToOnboarding() {
-    Timer(const Duration(seconds: 10), () {
+    Timer(const Duration(seconds: 5), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           pageBuilder:
