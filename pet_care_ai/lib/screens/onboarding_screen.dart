@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../main.dart';
 
@@ -18,6 +19,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   late Animation<double> _fadeAnimation;
   late Animation<double> _petChangeAnimation;
   bool _animationsInitialized = false;
+  Timer? _autoPageTimer;
 
   void _setupPetChangeAnimation() {
     _petChangeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -107,6 +109,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
     _startAnimations();
     _animationsInitialized = true;
+    _startAutoPage();
   }
 
   void _startAnimations() async {
@@ -117,6 +120,23 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     await Future.delayed(const Duration(milliseconds: 400));
     _cardController.forward();
     _petChangeController.forward();
+  }
+
+  void _startAutoPage() {
+    _autoPageTimer?.cancel();
+    _autoPageTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (currentPets.isNotEmpty && _pageController.hasClients) {
+        int nextPage = (_pageController.page?.round() ?? 0) + 1;
+        if (nextPage >= currentPets.length) {
+          nextPage = 0;
+        }
+        _pageController.animateToPage(
+          nextPage,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   void _selectCategory(String category) {
@@ -130,11 +150,17 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     }
   }
 
-  List<Map<String, dynamic>> get currentPets =>
-      petsByCategory[selectedCategory] ?? [];
+  List<Map<String, dynamic>> get currentPets {
+    if (selectedCategory == 'All') {
+      // Combine all images from all categories
+      return petsByCategory.values.expand((list) => list).toList();
+    }
+    return petsByCategory[selectedCategory] ?? [];
+  }
 
   @override
   void dispose() {
+    _autoPageTimer?.cancel();
     _slideController.dispose();
     _fadeController.dispose();
     _cardController.dispose();
@@ -229,6 +255,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   opacity: _fadeAnimation,
                   child: Row(
                     children: [
+                      _buildCategoryPill('All', selectedCategory == 'All'),
+                      const SizedBox(width: 12),
                       _buildCategoryPill('Dog', selectedCategory == 'Dog'),
                       const SizedBox(width: 12),
                       _buildCategoryPill('Cat', selectedCategory == 'Cat'),
@@ -368,6 +396,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     if (currentPets.isEmpty) return Container();
 
     return PageView.builder(
+      key: ValueKey(selectedCategory), // Force rebuild on category change
       controller: _pageController,
       itemCount: currentPets.length,
       onPageChanged: (index) {
@@ -379,6 +408,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         final pet = currentPets[index];
         return _buildPetCard(pet, index);
       },
+      // Enable page snapping and allow swiping through all images
+      physics: const BouncingScrollPhysics(),
     );
   }
 
