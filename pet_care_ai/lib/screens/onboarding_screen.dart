@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import '../main.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -175,7 +176,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       return const SizedBox.shrink();
     }
     return Scaffold(
-      backgroundColor: const Color(0xFFF5E6D3),
+      backgroundColor: Colors.black, // Set background to black
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -195,7 +196,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       ),
                       child: const Icon(
                         Icons.menu,
-                        color: Color(0xFF2C2C2C),
+                        color: Color(0xFF00E676), // Green accent
                         size: 20,
                       ),
                     ),
@@ -207,7 +208,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       ),
                       child: const Icon(
                         Icons.search,
-                        color: Color(0xFF2C2C2C),
+                        color: Color(0xFF00B8D4), // Cyan accent
                         size: 20,
                       ),
                     ),
@@ -225,23 +226,57 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Discover',
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF2C2C2C),
-                          letterSpacing: -1,
-                        ),
+                      AnimatedTextKit(
+                        animatedTexts: [
+                          ColorizeAnimatedText(
+                            'Discover',
+                            textStyle: const TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -1,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 12,
+                                  color: Color(0xFF00E676),
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            colors: [
+                              Color(0xFFFFC107), // Amber
+                              Color(0xFF00E676), // Green
+                              Color(0xFF00B8D4), // Cyan
+                              Colors.white,
+                            ],
+                            speed: Duration(milliseconds: 600),
+                          ),
+                        ],
+                        repeatForever: true,
+                        isRepeatingAnimation: true,
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        'AI-powered pet care for you',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: const Color(0xFF2C2C2C).withOpacity(0.7),
-                          fontWeight: FontWeight.w400,
-                        ),
+                      AnimatedTextKit(
+                        animatedTexts: [
+                          FadeAnimatedText(
+                            'AI-powered pet care for you',
+                            textStyle: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF00B8D4),
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1.2,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 8,
+                                  color: Color(0xFF00B8D4).withOpacity(0.5),
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            duration: Duration(milliseconds: 2000),
+                          ),
+                        ],
+                        repeatForever: true,
+                        isRepeatingAnimation: true,
                       ),
                     ],
                   ),
@@ -253,18 +288,21 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 position: _slideAnimation,
                 child: FadeTransition(
                   opacity: _fadeAnimation,
-                  child: Row(
-                    children: [
-                      _buildCategoryPill('All', selectedCategory == 'All'),
-                      const SizedBox(width: 12),
-                      _buildCategoryPill('Dog', selectedCategory == 'Dog'),
-                      const SizedBox(width: 12),
-                      _buildCategoryPill('Cat', selectedCategory == 'Cat'),
-                      const SizedBox(width: 12),
-                      _buildCategoryPill('Bird', selectedCategory == 'Bird'),
-                      const SizedBox(width: 12),
-                      _buildCategoryPill('Fish', selectedCategory == 'Fish'),
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildCategoryPill('All', selectedCategory == 'All'),
+                        const SizedBox(width: 12),
+                        _buildCategoryPill('Dog', selectedCategory == 'Dog'),
+                        const SizedBox(width: 12),
+                        _buildCategoryPill('Cat', selectedCategory == 'Cat'),
+                        const SizedBox(width: 12),
+                        _buildCategoryPill('Bird', selectedCategory == 'Bird'),
+                        const SizedBox(width: 12),
+                        _buildCategoryPill('Fish', selectedCategory == 'Fish'),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -361,32 +399,148 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   }
 
   Widget _buildCategoryPill(String title, bool isSelected) {
+    // Icon mapping for each category
+    final Map<String, IconData> icons = {
+      'All': Icons.apps,
+      'Dog': Icons.pets,
+      'Cat': Icons.pets, // You can use a custom cat icon if available
+      'Bird': Icons.flutter_dash, // Substitute for bird
+      'Fish': Icons.bubble_chart, // Substitute for fish
+    };
+    final Map<String, List<Color>> gradients = {
+      'All': [Color(0xFF00B8D4), Color(0xFF00E676)],
+      'Dog': [Color(0xFFFFC107), Color(0xFF00E676)],
+      'Cat': [Color(0xFF8EC5FC), Color(0xFFE0C3FC)],
+      'Bird': [Color(0xFFFFA17F), Color(0xFF00223E)],
+      'Fish': [Color(0xFF43C6AC), Color(0xFF191654)],
+    };
     return GestureDetector(
       onTap: () => _selectCategory(title),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 400),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.black87 : Colors.white.withOpacity(0.8),
+          gradient: isSelected
+              ? LinearGradient(
+                  colors: gradients[title] ?? [Color(0xFF00E676), Color(0xFF00B8D4)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          color: isSelected ? null : Colors.white.withOpacity(0.8),
           borderRadius: BorderRadius.circular(20),
-          boxShadow:
-              isSelected
-                  ? [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ]
-                  : [],
+          border: isSelected
+              ? Border.all(
+                  color: Colors.white.withOpacity(0.7),
+                  width: 2.5,
+                )
+              : null,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: gradients[title]?.last.withOpacity(0.4) ?? Colors.black26,
+                    blurRadius: 16,
+                    spreadRadius: 1,
+                    offset: Offset(0, 4),
+                  ),
+                ]
+              : [],
         ),
-        child: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? Colors.white : const Color(0xFF2C2C2C),
-            fontWeight: FontWeight.w500,
-            fontSize: 14,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0.8, end: isSelected ? 1.2 : 1.0),
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeOutBack,
+              builder: (context, scale, child) => Transform.scale(
+                scale: scale,
+                child: child,
+              ),
+              child: ShaderMask(
+                shaderCallback: (rect) {
+                  return LinearGradient(
+                    colors: gradients[title] ?? [Color(0xFF00E676), Color(0xFF00B8D4)],
+                  ).createShader(rect);
+                },
+                blendMode: BlendMode.srcIn,
+                child: Icon(
+                  icons[title] ?? Icons.pets,
+                  size: 22,
+                  color: isSelected ? Colors.white : Color(0xFF00B8D4),
+                  shadows: isSelected
+                      ? [
+                          Shadow(
+                            blurRadius: 12,
+                            color: gradients[title]?.first.withOpacity(0.7) ?? Colors.white,
+                            offset: Offset(0, 2),
+                          ),
+                        ]
+                      : [],
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 400),
+              transitionBuilder: (child, anim) => FadeTransition(
+                opacity: anim,
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: Offset(0.2, 0),
+                    end: Offset.zero,
+                  ).animate(anim),
+                  child: child,
+                ),
+              ),
+              child: Text(
+                title,
+                key: ValueKey(isSelected),
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Color(0xFF00B8D4),
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                  letterSpacing: 1.1,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 6,
+                      color: isSelected
+                          ? gradients[title]?.first.withOpacity(0.7) ?? Color(0xFFFFC107)
+                          : Color(0xFF00B8D4).withOpacity(0.4),
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            if (isSelected)
+              AnimatedBuilder(
+                animation: _slideController,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: 0.7 + 0.3 * (_slideController.value),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 6),
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: gradients[title] ?? [Color(0xFF00E676), Color(0xFF00B8D4)],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: gradients[title]?.last.withOpacity(0.7) ?? Colors.white,
+                            blurRadius: 12,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+          ],
         ),
       ),
     );
