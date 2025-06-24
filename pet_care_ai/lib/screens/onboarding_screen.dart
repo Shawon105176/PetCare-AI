@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import '../main.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -349,30 +348,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       },
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      const MainNavigationScreen(),
-                              transitionsBuilder: (
-                                context,
-                                animation,
-                                secondaryAnimation,
-                                child,
-                              ) {
-                                return SlideTransition(
-                                  position: Tween<Offset>(
-                                    begin: const Offset(1.0, 0.0),
-                                    end: Offset.zero,
-                                  ).animate(animation),
-                                  child: child,
-                                );
-                              },
-                              transitionDuration: const Duration(
-                                milliseconds: 600,
-                              ),
-                            ),
-                          );
+                          Navigator.of(context).pushReplacementNamed('/home');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
